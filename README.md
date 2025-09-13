@@ -16,13 +16,18 @@
 
 - [🤔 What is Spec-Driven Development?](#-what-is-spec-driven-development)
 - [⚡ Get started](#-get-started)
+- [🔧 Specify CLI Reference](#-specify-cli-reference)
 - [📚 Core philosophy](#-core-philosophy)
 - [🌟 Development phases](#-development-phases)
 - [🎯 Experimental goals](#-experimental-goals)
 - [🔧 Prerequisites](#-prerequisites)
 - [📖 Learn more](#-learn-more)
-- [Detailed process](#detailed-process)
-- [Troubleshooting](#troubleshooting)
+- [📋 Detailed process](#-detailed-process)
+- [🔍 Troubleshooting](#-troubleshooting)
+- [👥 Maintainers](#-maintainers)
+- [💬 Support](#-support)
+- [🙏 Acknowledgements](#-acknowledgements)
+- [📄 License](#-license)
 
 ## 🤔 What is Spec-Driven Development?
 
@@ -40,15 +45,15 @@ uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME
 
 ### 2. Create the spec
 
-Use the `/specify` command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
+Use the **`/specify`** command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
 
 ```bash
-/specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums never other nested albums. Within each album, photos are previewed in a tile-like interface.
+/specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
 ```
 
 ### 3. Create a technical implementation plan
 
-Use the `/plan` command to provide your tech stack and architecture choices.
+Use the **`/plan`** command to provide your tech stack and architecture choices.
 
 ```bash
 /plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
@@ -56,9 +61,61 @@ Use the `/plan` command to provide your tech stack and architecture choices.
 
 ### 4. Break down and implement
 
-Use `/tasks` to create an actionable task list, then ask your agent to implement the feature.
+Use **`/tasks`** to create an actionable task list, then ask your agent to implement the feature.
 
 For detailed step-by-step instructions, see our [comprehensive guide](./spec-driven.md).
+
+## 🔧 Specify CLI Reference
+
+The `specify` command supports the following options:
+
+### Commands
+
+| Command     | Description                                                    |
+|-------------|----------------------------------------------------------------|
+| `init`      | Initialize a new Specify project from the latest template      |
+| `check`     | Check for installed tools (`git`, `claude`, `gemini`, `code`/`code-insiders`, `cursor-agent`) |
+
+### `specify init` Arguments & Options
+
+| Argument/Option        | Type     | Description                                                                  |
+|------------------------|----------|------------------------------------------------------------------------------|
+| `<project-name>`       | Argument | Name for your new project directory (optional if using `--here`)            |
+| `--ai`                 | Option   | AI assistant to use: `claude`, `gemini`, `copilot`, or `cursor`             |
+| `--script`             | Option   | Script variant to use: `sh` (bash/zsh) or `ps` (PowerShell)                 |
+| `--ignore-agent-tools` | Flag     | Skip checks for AI agent tools like Claude Code                             |
+| `--no-git`             | Flag     | Skip git repository initialization                                          |
+| `--here`               | Flag     | Initialize project in the current directory instead of creating a new one   |
+| `--skip-tls`           | Flag     | Skip SSL/TLS verification (not recommended)                                 |
+| `--debug`              | Flag     | Enable detailed debug output for troubleshooting                            |
+
+### Examples
+
+```bash
+# Basic project initialization
+specify init my-project
+
+# Initialize with specific AI assistant
+specify init my-project --ai claude
+
+# Initialize with Cursor support
+specify init my-project --ai cursor
+
+# Initialize with PowerShell scripts (Windows/cross-platform)
+specify init my-project --ai copilot --script ps
+
+# Initialize in current directory
+specify init --here --ai copilot
+
+# Skip git initialization
+specify init my-project --ai gemini --no-git
+
+# Enable debug output for troubleshooting
+specify init my-project --ai claude --debug
+
+# Check system requirements
+specify check
+```
 
 ## 📚 Core philosophy
 
@@ -101,12 +158,12 @@ Our research and experimentation focus on:
 
 - Validate the concept of parallel implementation exploration
 - Provide robust iterative feature development workflows
-- Extend processes to handle upgrades and modernization tasks  
+- Extend processes to handle upgrades and modernization tasks
 
 ## 🔧 Prerequisites
 
 - **Linux/macOS** (or WSL2 on Windows)
-- AI coding agent: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), [Gemini CLI](https://github.com/google-gemini/gemini-cli), or [Codex CLI](https://github.com/openai/codex)
+- AI coding agent: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Codex CLI](https://github.com/openai/codex) or [Cursor](https://cursor.sh/)
 - [uv](https://docs.astral.sh/uv/) for package management
 - [Python 3.11+](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads)
@@ -114,11 +171,11 @@ Our research and experimentation focus on:
 ## 📖 Learn more
 
 - **[Complete Spec-Driven Development Methodology](./spec-driven.md)** - Deep dive into the full process
-- **[Detailed Walkthrough](#detailed-process)** - Step-by-step implementation guide
+- **[Detailed Walkthrough](#-detailed-process)** - Step-by-step implementation guide
 
 ---
 
-## Detailed process
+## 📋 Detailed process
 
 <details>
 <summary>Click to expand the detailed step-by-step walkthrough</summary>
@@ -215,10 +272,9 @@ At this stage, your project folder contents should resemble the following:
 │	 ├── setup-plan.sh
 │	 └── update-claude-md.sh
 ├── specs
-│	 └── 002-create-taskify
+│	 └── 001-create-taskify
 │	     └── spec.md
 └── templates
-    ├── CLAUDE-template.md
     ├── plan-template.md
     ├── spec-template.md
     └── tasks-template.md
@@ -268,7 +324,7 @@ The output of this step will include a number of implementation detail documents
 │	 ├── setup-plan.sh
 │	 └── update-claude-md.sh
 ├── specs
-│	 └── 002-create-taskify
+│	 └── 001-create-taskify
 │	     ├── contracts
 │	     │	 ├── api-spec.json
 │	     │	 └── signalr-spec.md
@@ -349,14 +405,14 @@ Once the implementation step is done, ask Claude Code to try to run the applicat
 
 ---
 
-## Troubleshooting
+## 🔍 Troubleshooting
 
 ### Git Credential Manager on Linux
 
 If you're having issues with Git authentication on Linux, you can install Git Credential Manager:
 
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 echo "Downloading Git Credential Manager v2.6.1..."
 wget https://github.com/git-ecosystem/git-credential-manager/releases/download/v2.6.1/gcm-linux_amd64.2.6.1.deb
@@ -368,19 +424,19 @@ echo "Cleaning up..."
 rm gcm-linux_amd64.2.6.1.deb
 ```
 
-## Maintainers
+## 👥 Maintainers
 
 - Den Delimarsky ([@localden](https://github.com/localden))
 - John Lam ([@jflam](https://github.com/jflam))
 
-## Support
+## 💬 Support
 
 For support, please open a [GitHub issue](https://github.com/github/spec-kit/issues/new). We welcome bug reports, feature requests, and questions about using Spec-Driven Development.
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
 This project is heavily influenced by and based on the work and research of [John Lam](https://github.com/jflam).
 
-## License
+## 📄 License
 
 This project is licensed under the terms of the MIT open source license. Please refer to the [LICENSE](./LICENSE) file for the full terms.
